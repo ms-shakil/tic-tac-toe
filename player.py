@@ -13,12 +13,25 @@ class RandomComPlayer(Player):
         super.__init__(self,letter)
 
     def get_move(self,game):
-        pass
+        squre = random.choice(game.available_move())
+        return squre
 
 class HumanPlayer(Player):
     def __init__(self, letter):
         super().__init__(letter)
 
     def get_move(self, game):
-        pass 
+        valide_squre = False
+        val = None
+        while not valide_squre:
+            squre = input(self.letter + "input move (9-0):")
+            try:
+                val = int(squre)
+                if val not in game.available_move():
+                    raise ValueError
+                valide_squre  = True
+            except ValueError:
+                print("invalid squre try again")     
+
+        return val           
 
