@@ -1,8 +1,10 @@
+import math
+from player import HumanPlayer, RandomComPlayer 
 class TicTacToe:
     def __init_(self):
         self.board =[" " for _ in range(9)]
         self.currentwinner = None
-
+    
     def printboard(self):
         for row in [self.board[i*3:(i+1)*3] for i in range(3)]:
             print("| " + " |".join(row)+" |")
@@ -13,14 +15,15 @@ class TicTacToe:
             print("| "+" |".join(i)+" |")
 
     def available_move(self):
-        move = [i for i,spot in enumerate(self.board) if spot == " "]
+        move = [i for i,x in enumerate(self.board) if x == " "]
         return move
     
     def empty_squre(self):
-        return " " in self.board
+        return ' ' in self.board
+   
 
     def Num_empty_squre(self):
-        return self.board.count(" ")    
+        return self.board.count(' ')    
 
     def make_moves(self,squre,letter):
         if self.board[squre] == " ":
@@ -30,11 +33,31 @@ class TicTacToe:
             return True  
         return False      
 
-    def winner(self):
-        pass        
-def Play(game,x_player,o_player,print_bord =True):
-    if print_bord:
-        game.printboard()
+    def winner(self, square, letter):
+
+        row_ind = math.floor(square / 3)
+        row = self.board[row_ind*3:(row_ind+1)*3]
+        # print('row', row)
+        if all([s == letter for s in row]):
+            return True
+        col_ind = square % 3
+        column = [self.board[col_ind+i*3] for i in range(3)]
+        # print('col', column)
+        if all([s == letter for s in column]):
+            return True
+        if square % 2 == 0:
+            diagonal1 = [self.board[i] for i in [0, 4, 8]]
+            # print('diag1', diagonal1)
+            if all([s == letter for s in diagonal1]):
+                return True
+            diagonal2 = [self.board[i] for i in [2, 4, 6]]
+            # print('diag2', diagonal2)
+            if all([s == letter for s in diagonal2]):
+                return True
+        return False    
+def Play(game,x_player,o_player,printgame =True):
+    if printgame:
+        game.print_board_number()
     letter = "X"
     while game.empty_squre():
         if letter == "O":
@@ -43,12 +66,23 @@ def Play(game,x_player,o_player,print_bord =True):
             squre = x_player.get_move(game)    
         
         if game.make_move(squre,letter):
-            if print_bord:
+            if printgame:
                 print(letter + f"make a move to squre{squre}")
                 game.printboard()
                 print(" ")
             
             if game.currentwinner:
-                if print_bord:
+                if printgame:
                     print(letter +"winner!")
+
+                return letter    
             letter = "O" if letter == "X" else "X"    
+    if printgame:
+        print("It's tie.")        
+
+
+if  __name__ =="__main__":
+    x_player = HumanPlayer("X")
+    o_player = RandomComPlayer("O")
+    t = TicTacToe()
+    Play(t,x_player,o_player,printgame =True)        

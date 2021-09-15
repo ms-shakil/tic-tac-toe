@@ -10,7 +10,7 @@ class Player:
 
 class RandomComPlayer(Player):
     def __init__(self,letter):
-        super.__init__(self,letter)
+        super().__init__(letter)
 
     def get_move(self,game):
         squre = random.choice(game.available_move())
