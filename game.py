@@ -1,7 +1,7 @@
 import math
 from player import HumanPlayer, RandomComPlayer 
 class TicTacToe:
-    def __init_(self):
+    def __init__(self):
         self.board =[" " for _ in range(9)]
         self.currentwinner = None
     
@@ -65,7 +65,7 @@ def Play(game,x_player,o_player,printgame =True):
         else:
             squre = x_player.get_move(game)    
         
-        if game.make_move(squre,letter):
+        if game.make_moves(squre,letter):
             if printgame:
                 print(letter + f"make a move to squre{squre}")
                 game.printboard()
@@ -80,9 +80,8 @@ def Play(game,x_player,o_player,printgame =True):
     if printgame:
         print("It's tie.")        
 
-
-if  __name__ =="__main__":
-    x_player = HumanPlayer("X")
-    o_player = RandomComPlayer("O")
+if __name__ == "__main__":
+    x_p = HumanPlayer("X")
+    o_p = RandomComPlayer("O")
     t = TicTacToe()
-    Play(t,x_player,o_player,printgame =True)        
+    Play(t,x_p, o_p, printgame = True)       
